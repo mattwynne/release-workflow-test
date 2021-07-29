@@ -66,8 +66,14 @@ jobs:
           The latest git tag is v${{ env.released_version }}, so it looks like a release is needed.
           Review this PR carefully. When it's merged, the v${{ env.next_version }} release will happen automatically.
           EOT
+          git checkout -b pre-release/v${{ env.next_version }}
           gh pr create \
             --base releases \
-            --head main \
+            --head pre-release/v${{ env.next_version }} \
             --title "Release v${{ env.next_version }}" \
             --body-file ${{ runner.temp }}/body
+      - name: Update existing PR branch
+        if: ${{ steps.pr-already-exists.outputs.result }}
+        run:
+          git checkout -b pre-release/v${{ env.next_version }}
+          git push --force origin pre-release/v${{ env.next_version }} 
