@@ -55,7 +55,7 @@ jobs:
         id: pr-already-exists
         run: |
           output=$(gh pr list --base releases)
-          exists=$([[ $output == *Release v${{ env.next_version }}* ]] && echo "true" || echo "")
+          exists=$([[ $output == *"Release v${{ env.next_version }}"* ]] && echo "true" || echo "")
           echo "::set-output name=result::exists"
       - name: Create Pull Request
         if: steps.pr-already-exists.outputs.result
