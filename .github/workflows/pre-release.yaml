@@ -74,6 +74,6 @@ jobs:
             --body-file ${{ runner.temp }}/body
       - name: Update existing PR branch
         if: ${{ steps.pr-already-exists.outputs.result }}
-        run:
+        run: |
           git checkout -b pre-release/v${{ env.next_version }}
           git push --force origin pre-release/v${{ env.next_version }} 
